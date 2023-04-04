@@ -75,7 +75,7 @@ class Formation
 
     public function __toString(): string
     {
-        return $this->titre?? 'test';
+        return $this->titre;
     }
 
 }

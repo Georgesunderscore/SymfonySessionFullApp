@@ -131,12 +131,12 @@ class Session
     {
         return $this->stagiaires;
     }
-
+    
     public function addStagiaire(Stagiaire $stagiaire): self
     {
         if (!$this->stagiaires->contains($stagiaire)) {
             $this->stagiaires->add($stagiaire);
-            $stagiaire->addInscriptionDetail($this);
+            // $stagiaire->addInscriptionDetail($this);
         }
 
         return $this;
@@ -144,10 +144,11 @@ class Session
 
     public function removeStagiaire(Stagiaire $stagiaire): self
     {
-        if ($this->stagiaires->removeElement($stagiaire)) {
-            $stagiaire->removeInscriptionDetail($this);
+        if ($this->stagiaires->removeElement($stagiaire )) {
+            $stagiaire->removeElement($stagiaire);
         }
 
         return $this;
     }
+
 }
