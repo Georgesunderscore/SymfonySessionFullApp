@@ -29,10 +29,10 @@ class Session
     #[ORM\JoinColumn(nullable: true)]
     private ?Formation $formation = null;
 
-    #[ORM\OneToMany(mappedBy: 'session', targetEntity: modulesdetails::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: ModulesDetails::class, orphanRemoval: true)]
     private Collection $modulesDetails;
 
-    #[ORM\ManyToMany(targetEntity: Stagiaire::class, mappedBy: 'inscriptionDetails')]
+    #[ORM\ManyToMany(targetEntity: Stagiaire::class, mappedBy: 'sessions')]
     private Collection $stagiaires;
 
     public function __construct()
@@ -95,14 +95,14 @@ class Session
     }
 
     /**
-     * @return Collection<int, modulesdetails>
+     * @return Collection<int, ModulesDetails>
      */
     public function getModulesDetails(): Collection
     {
         return $this->modulesDetails;
     }
 
-    public function addModulesDetail(modulesdetails $modulesDetail): self
+    public function addModulesDetail(ModulesDetails $modulesDetail): self
     {
         if (!$this->modulesDetails->contains($modulesDetail)) {
             $this->modulesDetails->add($modulesDetail);
@@ -112,7 +112,7 @@ class Session
         return $this;
     }
 
-    public function removeModulesDetail(modulesdetails $modulesDetail): self
+    public function removeModulesDetail(Modulesdetails $modulesDetail): self
     {
         if ($this->modulesDetails->removeElement($modulesDetail)) {
             // set the owning side to null (unless already changed)

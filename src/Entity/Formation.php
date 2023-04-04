@@ -18,7 +18,7 @@ class Formation
     #[ORM\Column(length: 50)]
     private ?string $titre = null;
 
-    #[ORM\OneToMany(mappedBy: 'formation', targetEntity: session::class)]
+    #[ORM\OneToMany(mappedBy: 'formation', targetEntity: Session::class)]
     private Collection $sessions;
 
     public function __construct()
@@ -51,7 +51,7 @@ class Formation
         return $this->sessions;
     }
 
-    public function addSession(session $session): self
+    public function addSession(Session $session): self
     {
         if (!$this->sessions->contains($session)) {
             $this->sessions->add($session);
@@ -61,7 +61,7 @@ class Formation
         return $this;
     }
 
-    public function removeSession(session $session): self
+    public function removeSession(Session $session): self
     {
         if ($this->sessions->removeElement($session)) {
             // set the owning side to null (unless already changed)
@@ -72,4 +72,10 @@ class Formation
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->titre?? 'test';
+    }
+
 }

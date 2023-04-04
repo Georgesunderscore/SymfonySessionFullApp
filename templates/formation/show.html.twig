@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FormationController!{% endblock %}
+
+{% block body %}
+<h1>Formation:</h1>
+<p> <strong> {{formation}} </strong></p>
+{% comment %} 
+<table class="table">
+    <thead class="thead-light">
+      <tr>
+        
+        <th scope="col">Titre Formation</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      {% for formation in formations  %}
+      <tr>
+        <td>
+            <a href="{{ path('show_formation',{'id':formation.id}) }}">
+             {{formation}}
+            </a> 
+            </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table> {% endcomment %}
+
+
+
+{% endblock %}
