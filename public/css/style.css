@@ -7,6 +7,16 @@
     margin-top: 10px;    
     
     }
+.cardflexcol{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    margin-left: 10px;
+    margin-top: 10px;    
+    
+    }
+    
     
 @media only screen and (max-width: 800px) {
     .cardflexrow {

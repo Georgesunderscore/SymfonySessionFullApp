@@ -144,8 +144,9 @@ class Session
 
     public function removeStagiaire(Stagiaire $stagiaire): self
     {
-        if ($this->stagiaires->removeElement($stagiaire )) {
-            $stagiaire->removeElement($stagiaire);
+        if ($this->stagiaires->contains($stagiaire )) {
+            $this->stagiaires->removeElement($stagiaire);
+            
         }
 
         return $this;
