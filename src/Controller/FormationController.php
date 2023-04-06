@@ -15,18 +15,16 @@ class FormationController extends AbstractController
     public function index(ManagerRegistry $doctrine): Response
     {                                                             
         // findBy([],["titre","DESC"])       
-        $formations = $doctrine->getRepository(Formation::class)->findAll();
+        // findAll();
+        $formations = $doctrine->getRepository(Formation::class)->findBy([],["titre"=>"ASC"]);      
         return $this->render('formation/index.html.twig', [
             'formations' => $formations
         ]);
     }
 
     #[Route('/formation/{id}', name: 'show_formation')]
-    public function show(): Response
+    public function show(Formation $formation): Response
     {                                                                    
-        if($formation == null){
-            $formation = new Formation();
-        } 
         return $this->render('formation/show.html.twig', [
             'formation' => $formation
         ]);

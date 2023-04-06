@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SessionController!{% endblock %}
+
+{% block body %}
+
+<h1>Session:</h1>
+<div class="cardflexrow" >
+<div class="card">
+    <h4 class="cardtitle"><strong> {{session}} </strong></h4>
+    <p class="cardtext">
+            Nombre Des Places :{{session.nombrePlaces}} / Nombre Des Places Dispo :{{session.nombrePlaces - session.stagiaires | length}}
+        </p>
+        <p class="cardtext">
+            Date Debut : {{session.dateDebut|date('d-m-Y')}} / Date Fin {{session.dateFin|date('d-m-Y')}} 
+        </p>
+        
+  </div>
+</div>
+
+<div class="card">
+  <h4 >List Des Stagiaire:</h4>
+</div>
+    
+
+
+<table class="table">
+    <thead class="thead-light">
+      <tr>
+        <div class="row">
+          <th scope="col"><div class="col-3 col-s-3"> Nom</div></th>
+          <th scope="col"><div class="col-3 col-s-3"> Prenom</div></th>
+          <th scope="col"><div class="col-3 col-s-3"> Email</div></th>
+          <th scope="col"><div class="col-1 col-s-3"> Stagiaire Details</div></th>
+          <div class="col-1 col-s-3"><th scope="col">Supprimer</th></div>
+        
+        </div>
+          <tr>
+    </thead>
+    <tbody>
+      {% for stagiaire in session.stagiaires  %}
+      <tr>
+        <td >                                  
+          {{stagiaire.nom}}
+        </td>
+        <td >                                  
+          {{stagiaire.prenom}}
+        </td>
+        <td >                                  
+          {{stagiaire.email }}
+        </td>
+
+        <td >
+          <a href="{{ path('show_stagiaire',{'id':stagiaire.id}) }}">
+            <i class="fa-solid fa-info"></i>
+          </a>
+        </td> 
+
+        <td >
+
+
+          <a href="{{ path('stagiaire_inscription_remove', {'idSe': session.id , 'idSt' : stagiaire.id}) }}">
+            
+
+            <i class="fa-solid fa-trash"></i>
+          </a>
+        </td>                        
+        
+                                         
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+  <div class="card">
+    <h4> List Des Modules:</h4>
+  </div>
+  <div class="card">
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <div class="row">
+        <th scope="col"><div class="col-3 col-s-3"> Module</div></th>
+        <th scope="col"><div class="col-3 col-s-3"> Category</div></th>
+        <th scope="col"><div class="col-3 col-s-3"> Nbr Jours</div></th>
+      </div>  
+      </tr>
+    </thead>
+    <tbody>
+      {% for moduleDetail in session.modulesDetails  %}
+        <tr>
+            <td>                                  
+            {{moduleDetail.module.nom}}
+            </td>
+            <td>                                  
+            {{moduleDetail.module.category.type}}
+            </td>
+            
+            <td>                                  
+            {{moduleDetail.nbrjours}}
+            </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+</div>
+
+{% endblock %}

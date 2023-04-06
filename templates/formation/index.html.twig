@@ -16,7 +16,8 @@
     <tbody>
       {% for formation in formations  %}
       <tr>
-        <td>
+        <td>                                  
+            <!--json data 'id':formation.id-->
             <a href="{{ path('show_formation',{'id':formation.id}) }}">
              {{formation}}
             </a> 

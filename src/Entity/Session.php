@@ -151,4 +151,16 @@ class Session
         return $this;
     }
 
+    public function __toString(): string
+    {
+        $titre = $this->formation;
+        
+        return $titre;
+        
+        
+        
+
+         
+    }
+
 }

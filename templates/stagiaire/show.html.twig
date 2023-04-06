@@ -1,12 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello FormationController!{% endblock %}
+{% block title %}Hello StagiaireController!{% endblock %}
 
 {% block body %}
-<h1>Formation:</h1>
-<p> <strong> {{formation}} </strong></p>
+<h1>Stagiaire:</h1>
 
-<h1> List Des Sessions:</h1>
+
+<div class="card">
+    <h4 class="cardtitle"><strong> {{stagiaire}} </strong></h4>
+        
+</div>
+
+
+<h1> List Des Sessions inscrits:</h1>
 
 <table class="table">
     <thead class="thead-light">
@@ -17,11 +23,10 @@
         <th scope="col">Date Fin</th>
         <th scope="col">Session Info</th>
         
-        
       </tr>
     </thead>
     <tbody>
-      {% for session in formation.sessions  %}
+      {% for session in stagiaire.sessions  %}
       <tr>
         <td>                                  
             <!--json data 'id':formation.id-->
@@ -40,13 +45,11 @@
           <a href="{{ path('show_session',{'id':session.id}) }}">
             <i class="fa-solid fa-info"></i>
           </a>
-        </td>           
-
+        </td>                                  
       </tr>
       {% endfor %}
     </tbody>
   </table>
-
 
 
 {% endblock %}
