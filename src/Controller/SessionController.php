@@ -93,13 +93,12 @@ class SessionController extends AbstractController
         $moduleDetail = new ModulesDetails();
         $moduleDetail->setSession($session);
         $moduleDetail->setModule($module);
-        // if (isset($_POST['submit'])) {
-            
+        //  if (isset($_POST['submit'])) {
             // $duree = $request->request->get('duree');
-             $nbrjrs = $request->get('nbrjrs');
+            //  $nbrjrs = $request->get('nbrjrs');
             // $nbrjrs = $request->attributes->get('nbrjrs');   
-        print( "nbrjrs".$nbrjrs);
-
+        // print( "nbrjrs".$nbrjrs);
+    $nbrjrs = $_REQUEST["nbrjrs"];
         $moduleDetail->setNbrjours(intval($nbrjrs));
         $session->addModulesDetail($moduleDetail);
         $entityManager->persist($moduleDetail);
