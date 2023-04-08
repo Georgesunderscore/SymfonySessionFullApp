@@ -112,6 +112,7 @@
               <i class="fa-solid fa-info"></i>
             </a>
           </td> 
+            <th scope="col"><div class="col-12 col-s-12">Ajouter</div></th>
   
           <td >
   
@@ -134,7 +135,7 @@
   <div class="cardflexrow" >
   <div class="cardflexcol" >
   <div class="card">
-    <h4> List Des Modules:</h4>
+    <h4> List Des Modules Inclus Dans la session:</h4>
   </div>
   <div class="card">
   <table class="table">
@@ -145,6 +146,7 @@
         <th scope="col"><div class="col-12 col-s-12"> Module</div></th>
         <th scope="col"><div class="col-12 col-s-12"> Category</div></th>
         <th scope="col"><div class="col-12 col-s-12"> Nbr Jours</div></th>
+        <th scope="col"><div class="col-12 col-s-12"> Supprimer</div></th>
       </div>  
       </tr>
     </thead>
@@ -161,6 +163,17 @@
             <td>                                  
             {{moduleDetail.nbrjours}}
             </td>
+
+            <td >
+
+
+              <a href="{{ path('module_session_remove', {'idSe': session.id , 'idMd' : moduleDetail.id}) }}">
+                
+    
+                <i class="fa-solid fa-trash"></i>
+              </a>
+            </td>    
+
         </tr>
       {% endfor %}
     </tbody>
@@ -172,7 +185,7 @@
 
   <div class="cardflexcol" >
   <div class="card">
-    <h4> List Des Modules:</h4>
+    <h4> List Des Modules non inclus :</h4>
   </div>
   <div class="card">
   <table class="table">
@@ -183,22 +196,34 @@
         <th scope="col"><div class="col-12 col-s-12"> Module</div></th>
         <th scope="col"><div class="col-12 col-s-12"> Category</div></th>
         <th scope="col"><div class="col-12 col-s-12"> Nbr Jours</div></th>
+        <th scope="col"><div class="col-12 col-s-12">Ajouter</div></th>
       </div>  
       </tr>
     </thead>
     <tbody>
-      {% for moduleDetail in session.modulesDetails  %}
+      {% for module in modulesNI  %}
         <tr>
             <td>                                  
-            {{moduleDetail.module.nom}}
+            {{module.nom}}
             </td>
             <td>                                  
-            {{moduleDetail.module.category.type}}
+            {{module.category.type}}
             </td>
             
             <td>                                  
-            {{moduleDetail.nbrjours}}
+              <input type="number" name="nbrjrs" />
             </td>
+
+            <td >
+
+
+              <a href="{{ path('module_session_add', {'idSe': session.id , 'idMd' : module.id}) }}">
+                
+                <i class="fa-solid fa-circle-plus"></i>
+              </a>
+            </td>                        
+    
+            
         </tr>
       {% endfor %}
     </tbody>

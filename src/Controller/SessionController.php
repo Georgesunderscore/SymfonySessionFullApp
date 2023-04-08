@@ -2,17 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Module;
 use App\Entity\Session;
 use App\Entity\Stagiaire;
-use App\Repository\SessionRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\ModulesDetails;
 
 // -use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Repository\SessionRepository;
 // -use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
 
 //use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
@@ -48,6 +50,19 @@ class SessionController extends AbstractController
         return $this->redirectToRoute('show_session',['id' => $session->getId()]);                                                
         // return $this->render('session/show.html.twig', ['session' => $session]);
     }
+    
+    #[Route('/session/removeModule/{idSe}/{idMd}', name: 'module_session_remove')]
+    public function removeModuleSession(EntityManagerInterface $em  ,$idSe ,$idMd):Response{         
+        //get modulesdetail before
+        $session = $em->getRepository(Session::class)->find($idSe);
+        $moduleDetail = $em->getRepository(ModulesDetails::class)->find($idMd);
+        
+        $session->removeModulesDetail($moduleDetail);
+        $em->persist($session);
+        $em->flush();
+        return $this->redirectToRoute('show_session',['id' => $session->getId()]);                                                
+        // return $this->render('session/show.html.twig', ['session' => $session]);
+    }
    
     #[Route('/add/stagiaire/session/{idSe}/{idSt}', name: 'stagiaire_session_add')]
     public function addStagiaireSession(EntityManagerInterface $entityManager,$idSe,$idSt): Response
@@ -67,6 +82,30 @@ class SessionController extends AbstractController
 
         // return $this->render('session/show.html.twig', ['session' => $session]);
         return $this->redirectToRoute('show_session',['id' => $session->getId()]);                                                
+
+
+    }
+    
+    #[Route('/add/module/session/{idSe}/{idMd}', name: 'module_session_add')]
+    public function addModuleSession(Request $request,EntityManagerInterface $entityManager,$idSe,$idMd){
+        $session = $entityManager->getRepository(Session::class)->find($idSe);
+        $module = $entityManager->getRepository(Module::class)->find($idMd);
+        $moduleDetail = new ModulesDetails();
+        $moduleDetail->setSession($session);
+        $moduleDetail->setModule($module);
+        $nbrjrs = $request->attributes->get('nbrjrs');   
+        print( $nbrjrs);
+
+        $moduleDetail->setNbrjours($nbrjrs);
+        $session->addModulesDetail($moduleDetail);
+        $entityManager->persist($moduleDetail);
+        $entityManager->persist($session);
+
+        // actually executes the queries (i.e. the INSERT query)
+        $entityManager->flush();
+
+        // return $this->render('session/show.html.twig', ['session' => $session]);
+         return $this->redirectToRoute('show_session',['id' => $session->getId()]);                                                
 
 
     }
@@ -92,9 +131,10 @@ class SessionController extends AbstractController
         // list des stagiaires
         // $stagiaires = $doctrine->getRepository(Stagiaire::class)->findBy([],["nom"=>"ASC"]);      
         $stagiairesNI = $sessionRepository->findNonInscrits($session->getId());
-
+        $modulesNI = $sessionRepository->findModulesNonInclus($session->getId());
         return $this->render('session/show.html.twig', ['session' => $session,
-                                                        'stagiairesNI' => $stagiairesNI
+                                                        'stagiairesNI' => $stagiairesNI,
+                                                        'modulesNI' => $modulesNI
         ]);
         // return $this->redirectToRoute('show_session',['id' => $session->getId() , 'stagiaires' => $stagiaires]);                                                
         // return $this->redirectToRoute('show_session',['id' => $session->getId()]);                                                

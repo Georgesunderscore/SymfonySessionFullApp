@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Module;
 use App\Entity\Session;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Session>
@@ -95,4 +96,32 @@ public function findNonInscrits($session_id){
     return $query->getResult();
     // return $qb->getQuery()->getResult();
     }
+    
+    // list des Modules non inclus
+    public function findModulesNonInclus($session_id){
+        $em = $this->getEntityManager();
+        
+        $qb = $em->createQueryBuilder();
+        // séléctionner tous les stagiaires d'une session dont l'id est passé en paramètre
+        $qb->select('m')
+            // ->from(Module::class,'m')
+            ->from('App\Entity\Module','m')
+            ->leftJoin('m.modulesDetails', 'mds')
+            ->where('mds.session = :id');
+        $sub = $em->createQueryBuilder();
+        // sélectionner tous les modules qui ne sont pas (NOT IN ) dans le résultat précédent
+        // on obtient les modules non inv=clus pour une session définie
+        $sub->select('md')
+            ->from('App\Entity\Module','md')
+            ->where($sub->expr()->notIn('md.id',$qb->getDQL()))
+            // requete parametrée
+            ->setParameter('id', $session_id);
+            // trier la liste des stagiaires par le nom de famille 
+            // ->orderBy('md.nom', 'ASC');
+            // renvoyer le resultat
+        $query = $sub->getQuery();
+        return $query->getResult();
+        // return $qb->getQuery()->getResult();
+        }
+
 }
