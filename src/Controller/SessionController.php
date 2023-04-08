@@ -87,20 +87,20 @@ class SessionController extends AbstractController
     }
     
     #[Route('/add/module/session/{idSe}/{idMd}', name: 'module_session_add')]
-    public function addModuleSession(Request $request,EntityManagerInterface $entityManager,$idSe,$idMd){
+    public function addModuleSession(Request $request,EntityManagerInterface $entityManager,$idSe,$idMd):Response{
         $session = $entityManager->getRepository(Session::class)->find($idSe);
         $module = $entityManager->getRepository(Module::class)->find($idMd);
         $moduleDetail = new ModulesDetails();
         $moduleDetail->setSession($session);
         $moduleDetail->setModule($module);
-        if (isset($_POST['submit'])) {
+        // if (isset($_POST['submit'])) {
             
             // $duree = $request->request->get('duree');
-            $nbrjrs = $request->request->get('nbrjrs');
+             $nbrjrs = $request->get('nbrjrs');
             // $nbrjrs = $request->attributes->get('nbrjrs');   
         print( "nbrjrs".$nbrjrs);
 
-        $moduleDetail->setNbrjours($nbrjrs);
+        $moduleDetail->setNbrjours(intval($nbrjrs));
         $session->addModulesDetail($moduleDetail);
         $entityManager->persist($moduleDetail);
         $entityManager->persist($session);
@@ -110,9 +110,9 @@ class SessionController extends AbstractController
 
         // return $this->render('session/show.html.twig', ['session' => $session]);
          return $this->redirectToRoute('show_session',['id' => $session->getId()]);     
-        } else {
-            return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
-        }                                           
+        // } else {
+        //     return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
+        // }                                           
 
 
     }
