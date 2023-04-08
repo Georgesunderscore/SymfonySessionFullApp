@@ -202,7 +202,9 @@
     </thead>
     <tbody>
       {% for module in modulesNI  %}
-        <tr>
+      <tr>
+          <form action="{{ path('module_session_add', {'idSe': session.id , 'idMd' : module.id}) }}"
+                                   method="POST">
             <td>                                  
             {{module.nom}}
             </td>
@@ -211,17 +213,24 @@
             </td>
             
             <td>                                  
-              <input type="number" name="nbrjrs" />
+              <input type="number" name="nbrjrs"  />
             </td>
 
             <td >
 
 
-              <a href="{{ path('module_session_add', {'idSe': session.id , 'idMd' : module.id}) }}">
+              <a href="{{ path('module_session_add', {'idSe': session.id , 'idMd' : module.id}) }}>
                 
                 <i class="fa-solid fa-circle-plus"></i>
               </a>
-            </td>                        
+            </td>     
+            <td>
+                <input type="submit" name="submit" value="submit">
+                <i class="fa-solid fa-circle-plus"></i>
+                </input>  
+                  
+            </td>
+          </form>                   
     
             
         </tr>

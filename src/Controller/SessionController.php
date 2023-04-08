@@ -93,8 +93,12 @@ class SessionController extends AbstractController
         $moduleDetail = new ModulesDetails();
         $moduleDetail->setSession($session);
         $moduleDetail->setModule($module);
-        $nbrjrs = $request->attributes->get('nbrjrs');   
-        print( $nbrjrs);
+        if (isset($_POST['submit'])) {
+            
+            // $duree = $request->request->get('duree');
+            $nbrjrs = $request->request->get('nbrjrs');
+            // $nbrjrs = $request->attributes->get('nbrjrs');   
+        print( "nbrjrs".$nbrjrs);
 
         $moduleDetail->setNbrjours($nbrjrs);
         $session->addModulesDetail($moduleDetail);
@@ -105,7 +109,10 @@ class SessionController extends AbstractController
         $entityManager->flush();
 
         // return $this->render('session/show.html.twig', ['session' => $session]);
-         return $this->redirectToRoute('show_session',['id' => $session->getId()]);                                                
+         return $this->redirectToRoute('show_session',['id' => $session->getId()]);     
+        } else {
+            return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
+        }                                           
 
 
     }
