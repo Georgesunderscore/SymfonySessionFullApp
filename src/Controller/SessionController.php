@@ -4,15 +4,17 @@ namespace App\Controller;
 
 use App\Entity\Module;
 use App\Entity\Session;
+use App\Entity\Formation;
 use App\Entity\Stagiaire;
-use App\Entity\ModulesDetails;
 
 // -use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use App\Repository\SessionRepository;
+use App\Form\SessionType;
 // -use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\ModulesDetails;
 
 //use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use App\Repository\SessionRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -131,6 +133,44 @@ class SessionController extends AbstractController
     //     // return $this->render('session/show.html.twig', ['Deleted'=>'True']);
     // }
     
+
+    
+#[Route('/formation/{id}/session/add', name: 'add_session_formation')]
+public function add(ManagerRegistry $doctrine, Formation $formation = null,Session $session = null, Request $request): Response
+{
+    //  instanciation  
+    if (!$formation) {
+        $formation = new Formation();
+        $session = new Session();
+        $session->setFormation($formation);
+    }else{
+        $session = new Session();
+        $session->setFormation($formation);
+    }
+    // printf("%s\n", $formation);
+    printf("%s\n", $session);
+    // creation d'un formulaire baser sur le $builder dans la class formationType
+    $form = $this->createForm(SessionType::class, $session);
+    $form->handleRequest($request);
+    // isValid () remplace les filter input 
+    if ($form->isSubmitted() && $form->isValid()) {
+        // recuperer les données
+        $session = $form->getData();
+        // on recupere le managere doctrine
+        $entityManager = $doctrine->getManager();
+        //prepare en pdo , on prepare a l'execution l'objet entreprise 
+        $entityManager->persist($session);
+        // execute,inserer dans la bdd
+        $entityManager->flush();
+        // retourner a la page qui affiche toutes les formation
+        // return $this->redirectToRoute('show_formation');
+        return $this->redirectToRoute('show_formation', ['id' => $session->getFormation()->getId()]);
+    }
+    return $this->render('session/add.html.twig', [
+        'formAddSession' => $form->createView(),
+    ]);
+}
+
     #[Route('/session/{id}', name: 'show_session')]
     public function show(Session $session,SessionRepository $sessionRepository): Response
     {   

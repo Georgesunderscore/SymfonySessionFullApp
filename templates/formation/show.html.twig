@@ -7,17 +7,16 @@
 <p> <strong> {{formation}} </strong></p>
 
 <h1> List Des Sessions:</h1>
+<li><a href="{{ path('add_session_formation',{'id':formation.id}) }}">Ajouter session </a> </li>
+
 
 <table class="table">
     <thead class="thead-light">
       <tr>
-        
         <th scope="col">Nombre de places</th>
         <th scope="col">Date Debut</th>
         <th scope="col">Date Fin</th>
         <th scope="col">Session Info</th>
-        
-        
       </tr>
     </thead>
     <tbody>
