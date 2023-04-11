@@ -186,8 +186,14 @@
   <div class="cardflexcol" >
   <div class="card">
     <h4> List Des Modules non inclus :</h4>
+    
   </div>
+
   <div class="card">
+    <p><div class="col-12 col-s-12">Add New</div><p>
+      <a  href="{{ path('add_category_module', {'id': session.id}) }}">
+        <i class="fa-solid fa-circle-plus"></i>
+      </a>
   <table class="table">
     <thead class="thead-light">
       <tr>
@@ -225,7 +231,10 @@
                 
                 <i class="fa-solid fa-circle-plus"></i>
               </a>
-            </td>     
+
+              
+            </td>  
+
             <!--
              <td>
                  <input type="submit" name="submit" value="submit">
