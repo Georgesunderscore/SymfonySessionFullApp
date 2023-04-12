@@ -16,19 +16,37 @@
 
        
     </head>
+
+
     <body>
-        <nav>
-            <ul>
-                <li><a href="{{ path('app_formation') }}">Liste des formations </a> </li>
-                <li><a href="{{ path('app_stagiaire') }}">Liste des Stagiaires </a> </li>
-                <li><a href="{{ path('add_formation') }}">Ajouter Formation </a> </li>
-                <li><a href="{{ path('add_category') }}">Ajouter Category </a> </li>
-                <li><a href="{{ path('add_stagiaire') }}">Ajouter stagiaire </a> </li>
-            </ul>
-        </nav>
-
-
+        
         {% block body %}
+            {% if app.user %}
+                <a href="{{path('app_logout')}}">Se Déconnecter <a>
+                <a href="">Mon Profile <a>
+                    {% if  is_granted('ROLE_USER')  %}
+                    <p>User Panel 
+                        <li><a href="{{ path('app_formation') }}">Liste des formations </a> </li>
+                        <li><a href="{{ path('app_stagiaire') }}">Liste des Stagiaires </a> </li>
+                    </p>
+                    
+                    
+                    {% endif %}
+                    
+                    {% if  is_granted('ROLE_ADMIN')  %}
+                    <p>Admin Panel 
+                        <li><a href="{{ path('add_formation') }}">Ajouter Formation </a> </li>
+                        <li><a href="{{ path('add_category') }}">Ajouter Category </a> </li>
+                        <li><a href="{{ path('add_stagiaire') }}">Ajouter stagiaire </a> </li>
+                    </p>
+                    {% endif %}
+            {% else %}    
+                <a href="{{path('app_login')}}">Se connecter <a>
+                <a href="{{path('app_register')}}">S'enregistrer  <a>
+            {% endif %}
+
+          
+
         
         {% endblock %}
 
