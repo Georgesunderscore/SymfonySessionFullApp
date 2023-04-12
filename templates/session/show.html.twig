@@ -59,12 +59,14 @@
 
         <td >
 
-
+          {% if  is_granted('ROLE_ADMIN')  %}
+          
           <a href="{{ path('stagiaire_inscription_remove', {'idSe': session.id , 'idSt' : stagiaire.id}) }}">
             
-
+            
             <i class="fa-solid fa-trash"></i>
           </a>
+          {% endif %}
         </td>                        
         
                                          
@@ -116,11 +118,13 @@
   
           <td >
   
-  
-            <a href="{{ path('stagiaire_session_add', {'idSe': session.id , 'idSt' : stagiaire.id}) }}">
+            {% if  is_granted('ROLE_ADMIN')  %}
+            
+              <a href="{{ path('stagiaire_session_add', {'idSe': session.id , 'idSt' : stagiaire.id}) }}">
               
-              <i class="fa-solid fa-person-circle-plus"></i>
-            </a>
+                <i class="fa-solid fa-person-circle-plus"></i>
+              </a>
+            {% endif %}
           </td>                        
           
                                            
@@ -166,12 +170,14 @@
 
             <td >
 
-
+              {% if  is_granted('ROLE_ADMIN')  %}
+              
               <a href="{{ path('module_session_remove', {'idSe': session.id , 'idMd' : moduleDetail.id}) }}">
                 
-    
+                
                 <i class="fa-solid fa-trash"></i>
               </a>
+              {% endif %}
             </td>    
 
         </tr>
@@ -191,9 +197,12 @@
 
   <div class="card">
     <p><div class="col-12 col-s-12">Add New</div><p>
+      {% if  is_granted('ROLE_ADMIN')  %}
+      
       <a  href="{{ path('add_category_module', {'id': session.id}) }}">
         <i class="fa-solid fa-circle-plus"></i>
       </a>
+      {% endif %}
   <table class="table">
     <thead class="thead-light">
       <tr>
@@ -225,13 +234,15 @@
 
             <td >
 
-
+              {% if  is_granted('ROLE_ADMIN')  %}
+              
               <a  href="{{ path('module_session_add', {'idSe': session.id , 'idMd' : module.id }) }}"
-                class="js-add-session-module"  >
-                
-                <i class="fa-solid fa-circle-plus"></i>
-              </a>
-
+              class="js-add-session-module"  >
+              
+              <i class="fa-solid fa-circle-plus"></i>
+            </a>
+            
+            {% endif %}
               
             </td>  
 
